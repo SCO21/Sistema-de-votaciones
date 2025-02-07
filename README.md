@@ -20,7 +20,7 @@ Para instalar las dependencias:
 - DB_PASSWORD=tu_contraseña
 - DB_HOST=localhost
 - DB_PORT=5432
-- JWT_SECRET=secreto_super_seguro
+- JWT_SECRET=mi_secreto_jwt
 ### 4. Configura tu conexion a la base de datos
 ### 5. Ejecuta el servidor
 - npm run dev
