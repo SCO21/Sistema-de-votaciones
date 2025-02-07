@@ -15,16 +15,17 @@ exports.getCandidatoById = async (req, res) => {
 
 exports.createCandidato = async (req, res) => {
     const {name} = req.body
+
     const candidatoExistente = await Candidato.findOne({ where: { name } });
+    if (candidatoExistente) {
+        return res.status(400).json({ error: 'No puedes registrarte como candidato mas de una vez' });
+    }
 
-        if (candidatoExistente) {
-            return res.status(400).json({ error: 'No puedes registrarte como candidato mas de una vez' });
-        }
-
-    const votanteCandidato = Votante.findOne({where : {name}})
+    const votanteCandidato = await Votante.findOne({where : {name}})
     if(votanteCandidato){
         return res.status(400).json({ error: 'No puedes registrarte como candidato si eres votante' });
     }
+
     const candidato = await Candidato.create(req.body);
     if (!req.body.name) {
         return res.status(400).json({ error: 'El campo "name" es obligatorio' });

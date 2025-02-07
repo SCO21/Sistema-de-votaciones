@@ -13,16 +13,6 @@ const sequelize = new Sequelize(
     }
 );
 
-sequelize.sync({ force: false, alter: true })
-  .then(() => {
-    console.log('Base de datos sincronizada correctamente');
-    return sequelize.getQueryInterface().showAllTables();
-  })
-  .then((tables) => {
-    console.log('Tablas en la base de datos:', tables);
-  })
-  .catch((error) => {
-    console.error('Error al sincronizar la base de datos:', error);
-  });
+
 
 module.exports = sequelize;
