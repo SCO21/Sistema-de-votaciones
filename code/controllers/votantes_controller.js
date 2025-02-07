@@ -1,6 +1,7 @@
 const Votante = require('../models/Votante');
 const Candidato = require("../models/Candidato")
-
+const jwt = require('jsonwebtoken');
+const secretKey = process.env.JWT_SECRET
 exports.getAllVotantes = async (req, res) => {
     const votantes = await Votante.findAll();
     res.json(votantes);
@@ -27,7 +28,15 @@ exports.createVotante = async (req, res) => {
     }
 
     const votante = await Votante.create(req.body);
-    res.status(201).json(votante);
+    
+    
+    const token = jwt.sign(
+        { id: votante.id, name: votante.name, email: votante.email },
+        secretKey,
+        { expiresIn: '1h' }
+    );
+    res.status(201).json({ votante, token });
+
 };
 
 exports.deleteVotante = async (req, res) => {

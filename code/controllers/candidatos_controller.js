@@ -1,7 +1,8 @@
 const { where } = require('sequelize');
 const Candidato = require('../models/Candidato');
 const Votante = require("../models/Votante")
-
+const jwt = require('jsonwebtoken');
+const secretKey = process.env.JWT_SECRET
 exports.getAllCandidatos = async (req, res) => {
     const candidatos = await Candidato.findAll();
     res.json(candidatos);
@@ -30,7 +31,12 @@ exports.createCandidato = async (req, res) => {
     if (!req.body.name) {
         return res.status(400).json({ error: 'El campo "name" es obligatorio' });
     }
-    res.status(201).json(candidato);
+     const token = jwt.sign(
+            { id: candidato.id, name: candidato.name, email: candidato.email },
+            secretKey,
+            { expiresIn: '1h' }
+        );
+    res.status(201).json({ candidato, token });
 };
 
 exports.deleteCandidato = async (req, res) => {
