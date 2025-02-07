@@ -74,3 +74,16 @@ curl -X GET http://localhost:3000/votes/statistics -H "Authorization: Bearer <tu
 
 curl X GET http://localhost:3000/votes -H "Authorization: Bearer <tu_token_aqui>"
 ________________________________________
+
+### Capturas de las estadisticas generadas
+![image](https://github.com/user-attachments/assets/2c67a319-28e6-4d3f-b18c-ec733c6b1f6e)
+
+### Notas
+
+*	Para los endpoints protegidos con JWT, debes incluir el token en el encabezado de la solicitud: -H "Authorization: Bearer TU_TOKEN_AQUI"
+* Un votante no puede registrarse más de una vez.
+* Un votante no puede ser candidato al mismo tiempo.
+* Un votante solo puede emitir un voto.
+
+
+
