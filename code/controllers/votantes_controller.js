@@ -2,6 +2,7 @@ const Votante = require('../models/Votante');
 const Candidato = require("../models/Candidato")
 const jwt = require('jsonwebtoken');
 const secretKey = process.env.JWT_SECRET
+const { where, Op } = require("sequelize");
 exports.getAllVotantes = async (req, res) => {
     const votantes = await Votante.findAll();
     res.json(votantes);
@@ -16,14 +17,21 @@ exports.getVotanteById = async (req, res) => {
 exports.createVotante = async (req, res) => {
     const { name } = req.body;
     
-    const candidatoVotante = await Candidato.findOne({ where: { name } });
-    if (candidatoVotante) {
+    const votanteCandidato = await Candidato.findOne({ where: {
+        name: { [Op.iLike]: name } 
+    }
+});
+    if (votanteCandidato) {
             return res.status(400).json({ error: 'No puedes registrarte como votante si eres candidato' });
     }
     
 
-    const votanteExistente = await Votante.findOne({where : {name}})
-    if(votanteExistente){
+    const votanteExistente = await Votante.findOne({
+        where: {
+            name: { [Op.iLike]: name } 
+        }
+    });
+    if (votanteExistente) {
         return res.status(400).json({ error: 'No puedes registrarte como votante mas de una vez' });
     }
 
