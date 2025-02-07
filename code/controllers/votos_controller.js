@@ -1,5 +1,6 @@
 const Voto = require('../models/Voto');
 const Votante = require('../models/Votante');
+const sequelize = require("../config/db")
 
 
 exports.getAllVotos = async (req, res) => {
