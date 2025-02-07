@@ -1,4 +1,5 @@
 const Votante = require('../models/Votante');
+const Candidato = require("../models/Candidato")
 
 exports.getAllVotantes = async (req, res) => {
     const votantes = await Votante.findAll();
@@ -12,6 +13,16 @@ exports.getVotanteById = async (req, res) => {
 };
 
 exports.createVotante = async (req, res) => {
+    const { name } = req.body;
+    const candidatoVotante = await Candidato.findOne({ where: { name } });
+
+        if (candidatoVotante) {
+            return res.status(400).json({ error: 'No puedes registrarte como votante si eres candidato' });
+        }
+    const votanteExistente = Votante.findOne({where : {name}})
+    if(votanteExistente){
+        return res.status(400).json({ error: 'No puedes registrarte como votante mas de una vez' });
+    }
     const votante = await Votante.create(req.body);
     res.status(201).json(votante);
 };
