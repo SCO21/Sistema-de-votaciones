@@ -19,6 +19,8 @@ const Candidato = sequelize.define('Candidato',{
         type: DataTypes.INTEGER,
         defaultValue: 0,
     }
+},{
+    tableName: 'Candidato'  
 });
 
 

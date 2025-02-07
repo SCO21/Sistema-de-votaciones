@@ -13,6 +13,10 @@ exports.getCandidatoById = async (req, res) => {
 
 exports.createCandidato = async (req, res) => {
     const candidato = await Candidato.create(req.body);
+    console.log(req.body);
+    if (!req.body.name) {
+        return res.status(400).json({ error: 'El campo "name" es obligatorio' });
+    }
     res.status(201).json(candidato);
 };
 
@@ -20,3 +24,4 @@ exports.deleteCandidato = async (req, res) => {
     await Candidato.destroy({ where: { id: req.params.id } });
     res.json({ message: 'Candidato eliminado' });
 };
+

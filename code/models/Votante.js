@@ -21,6 +21,8 @@ const Votante = sequelize.define('Votante',{
         type: DataTypes.BOOLEAN,
         defaultValue : false,
     },
+},  {
+    tableName: 'Votante'  
 });
 
 module.exports = Votante;

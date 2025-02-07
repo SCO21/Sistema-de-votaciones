@@ -1,9 +1,9 @@
 const sequelize = require("../config/db");
-const {DataTypes} = require("sequelize");
+const { DataTypes } = require("sequelize");
 const Votante = require("./Votante");
 const Candidato = require("./Candidato");
 
-const Voto = sequelize.define('Voto',{
+const Voto = sequelize.define('Voto', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -11,14 +11,13 @@ const Voto = sequelize.define('Voto',{
     },
     voter_id: {
         type: DataTypes.INTEGER,
-        allowNull :  false,
-        unique: true,
+        allowNull: false,
         references: {
-            model : Votante,
-            key : "id",
+            model: Votante,
+            key: 'id',
         },
-        onUpdate: "Cascade",
-        onDelete: "Cascade",
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
     },
     candidate_id: {
         type: DataTypes.INTEGER,
@@ -27,17 +26,18 @@ const Voto = sequelize.define('Voto',{
             model: Candidato,
             key: "id",
         },
-        onUpdate: "Cascade",
-        onDelete: "Cascade",
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
     },
+},{
+    tableName: 'Voto'  
+});
 
-})
-
+// Definir relaciones correctamente
 Votante.hasOne(Voto, { foreignKey: "voter_id" });
 Voto.belongsTo(Votante, { foreignKey: "voter_id" });
 
 Candidato.hasMany(Voto, { foreignKey: "candidate_id" });
 Voto.belongsTo(Candidato, { foreignKey: "candidate_id" });
-
 
 module.exports = Voto;
